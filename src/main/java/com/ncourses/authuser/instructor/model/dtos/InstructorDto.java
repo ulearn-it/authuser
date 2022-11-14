@@ -1,4 +1,4 @@
-package com.ncourses.authuser.dtos;
+package com.ncourses.authuser.instructor.model.dtos;
 
 import lombok.Data;
 
@@ -10,4 +10,5 @@ public class InstructorDto {
 
     @NotNull
     private UUID userId;
+
 }

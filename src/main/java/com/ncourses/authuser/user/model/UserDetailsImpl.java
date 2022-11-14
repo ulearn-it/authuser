@@ -24,7 +24,7 @@ public class UserDetailsImpl implements UserDetails {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserDetailsImpl build(UserModel userModel) {
+    public static UserDetailsImpl build(UserEntity userModel) {
         List<GrantedAuthority> authorities = userModel.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
                 .collect(Collectors.toList());

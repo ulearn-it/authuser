@@ -1,7 +1,13 @@
 package com.ncourses.authuser.user.service;
 
-import com.ncourses.authuser.user.model.UserModel;
+import com.ncourses.authuser.exception.MismatchedPasswordException;
+import com.ncourses.authuser.exception.ResourceNotFoundException;
+import com.ncourses.authuser.user.model.UserEntity;
+import com.ncourses.authuser.user.model.dtos.UserDto;
 import com.ncourses.authuser.user.repository.UserRepository;
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,34 +15,25 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.UUID;
 
 @Service
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserService {
 
-    @Autowired
     UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<UserModel> findAll() {
-        return userRepository.findAll();
+    public UserEntity findById(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + userId));
     }
 
-    @Transactional(readOnly = true)
-    public Optional<UserModel> findById(UUID userId) {
-        return userRepository.findById(userId);
-    }
-
-    @Transactional
-    public void delete(UserModel userModel) {
-        userRepository.delete(userModel);
-    }
-
-    @Transactional
-    public UserModel save(UserModel userModel) {
-        return userRepository.save(userModel);
+    public void deleteById(UUID userId) {
+        userRepository.deleteById(userId);
     }
 
     @Transactional(readOnly = true)
@@ -50,29 +47,39 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserModel> findAll(Specification<UserModel> spec, Pageable pageable) {
+    public Page<UserEntity> findAll(Specification<UserEntity> spec, Pageable pageable) {
         return userRepository.findAll(spec, pageable);
     }
 
     @Transactional
-    public UserModel saveUser(UserModel userModel) {
-        userModel = save(userModel);
-        return userModel;
+    public UserEntity updateUser(UUID userId, UserDto userDto) {
+        UserEntity user = findById(userId);
+        user.setFullName(userDto.getFullName());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setCpf(userDto.getCpf());
+        return user;
     }
 
     @Transactional
-    public void deleteUser(UserModel userModel) {
-        delete(userModel);
+    public UserEntity updatePassword(UUID userId, UserDto userDto) {
+        UserEntity user = findById(userId);
+        if (!user.getPassword().equals(userDto.getOldPassword())) {
+            throw new MismatchedPasswordException("Mismatched old password!");
+        }
+        user.setPassword(userDto.getPassword());
+        return user;
     }
 
     @Transactional
-    public UserModel updateUser(UserModel userModel) {
-        userModel = save(userModel);
-        return userModel;
+    public UserEntity updateImage(UUID userId, UserDto userDto) {
+        UserEntity user = findById(userId);
+        user.setImageUrl(userDto.getImageUrl());
+        user.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        return user;
     }
 
     @Transactional
-    public UserModel updatePassword(UserModel userModel) {
-        return save(userModel);
+    public UserEntity saveUser(UserEntity user) {
+        return userRepository.save(user);
     }
 }

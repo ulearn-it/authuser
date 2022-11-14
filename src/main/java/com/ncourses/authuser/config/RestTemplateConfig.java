@@ -1,4 +1,4 @@
-package com.ncourses.authuser.configs;
+package com.ncourses.authuser.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

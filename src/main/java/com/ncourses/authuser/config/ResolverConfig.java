@@ -1,4 +1,4 @@
-package com.ncourses.authuser.configs;
+package com.ncourses.authuser.config;
 
 import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
 import org.springframework.context.annotation.Configuration;
@@ -20,5 +20,4 @@ public class ResolverConfig extends WebMvcConfigurationSupport {
         argumentResolvers.add(resolver);
         super.addArgumentResolvers(argumentResolvers);
     }
-
 }

@@ -1,20 +1,24 @@
 package com.ncourses.authuser.role.service;
 
-import com.ncourses.authuser.role.model.RoleModel;
+import com.ncourses.authuser.exception.ResourceNotFoundException;
+import com.ncourses.authuser.role.model.RoleEntity;
 import com.ncourses.authuser.role.model.enums.RoleType;
 import com.ncourses.authuser.role.repository.RoleRepository;
+import lombok.AccessLevel;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoleService {
 
-    @Autowired
     RoleRepository roleRepository;
 
-    public Optional<RoleModel> findByRoleName(RoleType roleType) {
-        return roleRepository.findByRoleName(roleType);
+    public RoleEntity findByRoleName(RoleType roleType) {
+        return roleRepository.findByRoleName(roleType)
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleType.name()));
     }
 }

@@ -1,4 +1,4 @@
-package com.ncourses.authuser.configs.security;
+package com.ncourses.authuser.config.security;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.AuthenticationException;

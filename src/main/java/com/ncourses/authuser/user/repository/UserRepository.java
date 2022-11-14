@@ -1,6 +1,6 @@
 package com.ncourses.authuser.user.repository;
 
-import com.ncourses.authuser.user.model.UserModel;
+import com.ncourses.authuser.user.model.UserEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -8,16 +8,16 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<UserModel, UUID>, JpaSpecificationExecutor<UserModel> {
+public interface UserRepository extends JpaRepository<UserEntity, UUID>, JpaSpecificationExecutor<UserEntity> {
 
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
 
     @EntityGraph(attributePaths = "roles", type = EntityGraph.EntityGraphType.FETCH)
-    Optional<UserModel> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
     @EntityGraph(attributePaths = "roles", type = EntityGraph.EntityGraphType.FETCH)
-    Optional<UserModel> findById(UUID userId);
+    Optional<UserEntity> findById(UUID userId);
 
 }

@@ -1,4 +1,4 @@
-package com.ncourses.authuser.dtos;
+package com.ncourses.authuser.user.model.dtos;
 
 import lombok.Data;
 

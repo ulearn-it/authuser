@@ -14,16 +14,16 @@ import javax.validation.constraints.Size;
 public class UserDto {
 
     public interface UserView {
-        public static interface RegistrationPost {
+        interface RegistrationPost {
         }
 
-        public static interface UserPut {
+        interface UserPut {
         }
 
-        public static interface PasswordPut {
+        interface PasswordPut {
         }
 
-        public static interface ImagePut {
+        interface ImagePut {
         }
     }
 

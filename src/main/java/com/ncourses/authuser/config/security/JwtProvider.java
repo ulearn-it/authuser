@@ -1,4 +1,4 @@
-package com.ncourses.authuser.configs.security;
+package com.ncourses.authuser.config.security;
 
 import com.ncourses.authuser.user.model.UserDetailsImpl;
 import io.jsonwebtoken.*;
@@ -55,6 +55,5 @@ public class JwtProvider {
         }
         return false;
     }
-
 
 }
