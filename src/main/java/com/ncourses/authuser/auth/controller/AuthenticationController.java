@@ -24,15 +24,15 @@ import javax.validation.Valid;
 
 @Log4j2
 @RestController
-@Setter(onMethod_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationController {
 
-    JwtProvider jwtProvider;
     AuthenticationManager authenticationManager;
     AuthenticationService authenticationService;
+    JwtProvider jwtProvider;
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@RequestBody @Validated(UserDto.UserView.RegistrationPost.class)

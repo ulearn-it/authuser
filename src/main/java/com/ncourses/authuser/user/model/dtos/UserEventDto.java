@@ -14,7 +14,6 @@ public class UserEventDto {
     private String userStatus;
     private String userType;
     private String phoneNumber;
-    private String cpf;
     private String imageUrl;
     private String actionType;
 

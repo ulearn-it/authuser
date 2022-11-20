@@ -1,9 +1,6 @@
 package com.ncourses.authuser.config.security;
 
 import com.ncourses.authuser.user.service.UserDetailsServiceImpl;
-import lombok.AccessLevel;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,11 +18,12 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Log4j2
-@Setter(onMethod_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationJwtFilter extends OncePerRequestFilter {
 
+    @Autowired
     JwtProvider jwtProvider;
+
+    @Autowired
     UserDetailsServiceImpl userDetailsService;
 
     @Override

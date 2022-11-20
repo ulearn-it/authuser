@@ -1,17 +1,20 @@
 package com.ncourses.authuser.user.model.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
-import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDto {
+public class UserDto extends RepresentationModel<UserDto> {
 
     public interface UserView {
         interface RegistrationPost {
@@ -25,7 +28,13 @@ public class UserDto {
 
         interface ImagePut {
         }
+
+        interface BasicView {
+        }
     }
+
+    @JsonView(UserView.BasicView.class)
+    private UUID userId;
 
     @NotBlank(groups = UserView.RegistrationPost.class)
     @Size(min = 4, max = 50, groups = UserView.RegistrationPost.class)
@@ -34,7 +43,7 @@ public class UserDto {
 
     @NotBlank(groups = UserView.RegistrationPost.class)
     @Email(groups = UserView.RegistrationPost.class)
-    @JsonView(UserView.RegistrationPost.class)
+    @JsonView({UserView.RegistrationPost.class, UserView.BasicView.class})
     private String email;
 
     @NotBlank(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class})
@@ -47,18 +56,18 @@ public class UserDto {
     @JsonView({UserView.PasswordPut.class})
     private String oldPassword;
 
-    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
+    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class, UserView.BasicView.class})
     private String fullName;
 
-    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
+    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class, UserView.BasicView.class})
     private String phoneNumber;
 
-    @CPF(groups = {UserView.RegistrationPost.class, UserView.UserPut.class})
-    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
-    private String cpf;
-
     @NotBlank(groups = UserView.ImagePut.class)
-    @JsonView({UserView.ImagePut.class})
+    @JsonView({UserView.ImagePut.class, UserView.BasicView.class})
     private String imageUrl;
+
+    @JsonView(UserView.BasicView.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private LocalDateTime creationDate;
 
 }

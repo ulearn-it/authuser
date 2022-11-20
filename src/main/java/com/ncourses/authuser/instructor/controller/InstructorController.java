@@ -15,10 +15,10 @@ import javax.validation.Valid;
 
 @Log4j2
 @RestController
-@Setter(onMethod_ = @Autowired)
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/instructors")
+@Setter(onMethod_ = @Autowired)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class InstructorController {
 
     InstructorService instructorService;

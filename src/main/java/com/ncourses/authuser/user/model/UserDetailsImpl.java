@@ -2,6 +2,7 @@ package com.ncourses.authuser.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +14,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 

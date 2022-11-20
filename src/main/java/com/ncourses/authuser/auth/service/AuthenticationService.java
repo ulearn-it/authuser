@@ -7,14 +7,15 @@ import com.ncourses.authuser.role.service.RoleService;
 import com.ncourses.authuser.user.model.UserEntity;
 import com.ncourses.authuser.user.model.dtos.UserDto;
 import com.ncourses.authuser.user.model.enums.UserType;
+import com.ncourses.authuser.user.model.mapper.UserMapper;
 import com.ncourses.authuser.user.service.UserService;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Setter(onMethod_ = @Autowired)
@@ -24,33 +25,35 @@ public class AuthenticationService {
     PasswordEncoder passwordEncoder;
     RoleService roleService;
     UserService userService;
+    UserMapper userMapper;
 
+    @Transactional
     public UserEntity registerUserStudent(UserDto userDto) {
         validateUser(userDto);
-        RoleEntity role = roleService.findByRoleName(RoleType.ROLE_STUDENT);
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        UserEntity user = new UserEntity();
-        BeanUtils.copyProperties(userDto, user);
+        RoleEntity role = roleService.findByRoleName(RoleType.ROLE_STUDENT);
+
+        UserEntity user = userMapper.userDtoToUser(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setUserType(UserType.STUDENT);
         user.getRoles().add(role);
-        userService.saveUser(user);
-        return user;
+
+        return userService.saveUser(user);
     }
 
+    @Transactional
     public UserEntity registerUserAdmin(UserDto userDto) {
         validateUser(userDto);
-        RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        UserEntity user = new UserEntity();
-        BeanUtils.copyProperties(userDto, user);
+        RoleEntity role = roleService.findByRoleName(RoleType.ROLE_ADMIN);
+
+        UserEntity user = userMapper.userDtoToUser(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setUserType(UserType.ADMIN);
         user.getRoles().add(role);
-        userService.saveUser(user);
-        return user;
-    }
 
+        return userService.saveUser(user);
+    }
 
     private void validateUser(UserDto userDto) {
         if (userService.existsByUsername(userDto.getUsername())) {

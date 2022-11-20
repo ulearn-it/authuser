@@ -1,7 +1,7 @@
 package com.ncourses.authuser.role.repository;
 
-import com.ncourses.authuser.role.model.enums.RoleType;
 import com.ncourses.authuser.role.model.RoleEntity;
+import com.ncourses.authuser.role.model.enums.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

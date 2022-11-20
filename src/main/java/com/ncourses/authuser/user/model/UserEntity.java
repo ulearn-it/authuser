@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ncourses.authuser.user.model.dtos.UserEventDto;
 import com.ncourses.authuser.role.model.RoleEntity;
 import com.ncourses.authuser.user.model.enums.UserStatus;
 import com.ncourses.authuser.user.model.enums.UserType;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
@@ -24,7 +22,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "TB_USERS")
-public class UserEntity extends RepresentationModel<UserEntity> implements Serializable {
+public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -55,9 +53,6 @@ public class UserEntity extends RepresentationModel<UserEntity> implements Seria
     @Column(length = 20)
     private String phoneNumber;
 
-    @Column(length = 20)
-    private String cpf;
-
     @Column
     private String imageUrl;
 
@@ -65,7 +60,7 @@ public class UserEntity extends RepresentationModel<UserEntity> implements Seria
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime creationDate;
 
-    @Column(nullable = true)
+    @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime lastUpdateDate;
 
@@ -76,22 +71,14 @@ public class UserEntity extends RepresentationModel<UserEntity> implements Seria
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles = new HashSet<>();
 
-    public UserEventDto convertToUserEventDto() {
-        var userEventDto = new UserEventDto();
-        BeanUtils.copyProperties(this, userEventDto);
-        userEventDto.setUserType(this.getUserType().toString());
-        userEventDto.setUserStatus(this.getUserStatus().toString());
-        return userEventDto;
-    }
-
     @PrePersist
     private void onInsert() {
-        setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
+        creationDate = LocalDateTime.now(ZoneId.of("UTC"));
     }
 
     @PreUpdate
     private void onUpdate() {
-        setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        lastUpdateDate = LocalDateTime.now(ZoneId.of("UTC"));
     }
 
 }
