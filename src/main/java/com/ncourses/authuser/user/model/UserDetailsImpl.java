@@ -30,13 +30,14 @@ public class UserDetailsImpl implements UserDetails {
         List<GrantedAuthority> authorities = userModel.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getAuthority()))
                 .collect(Collectors.toList());
-        return new UserDetailsImpl(
-                userModel.getUserId(),
-                userModel.getFullName(),
-                userModel.getUsername(),
-                userModel.getPassword(),
-                userModel.getEmail(),
-                authorities);
+        return UserDetailsImpl.builder()
+                .userId(userModel.getUserId())
+                .fullName(userModel.getFullName())
+                .username(userModel.getUsername())
+                .password(userModel.getPassword())
+                .email(userModel.getEmail())
+                .authorities(authorities)
+                .build();
     }
 
     @Override
