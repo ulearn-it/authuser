@@ -1,4 +1,4 @@
-package com.ncourses.authuser.dtos;
+package com.ncourses.authuser.dto;
 
 import com.ncourses.authuser.enums.CourseLevel;
 import com.ncourses.authuser.enums.CourseStatus;

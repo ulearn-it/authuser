@@ -1,4 +1,4 @@
-package com.ncourses.authuser.dtos;
+package com.ncourses.authuser.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

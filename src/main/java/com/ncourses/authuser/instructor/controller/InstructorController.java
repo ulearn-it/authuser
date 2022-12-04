@@ -1,7 +1,8 @@
 package com.ncourses.authuser.instructor.controller;
 
-import com.ncourses.authuser.instructor.model.dtos.InstructorDto;
+import com.ncourses.authuser.instructor.model.dto.InstructorDto;
 import com.ncourses.authuser.instructor.service.InstructorService;
+import com.ncourses.authuser.user.model.dtos.UserDto;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,7 @@ public class InstructorController {
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/subscription")
-    public ResponseEntity<Object> saveSubscriptionInstructor(@RequestBody @Valid InstructorDto instructorDto) {
+    public ResponseEntity<UserDto> saveSubscriptionInstructor(@RequestBody @Valid InstructorDto instructorDto) {
         return ResponseEntity.ok().body(instructorService.saveSubscriptionInstructor(instructorDto));
     }
 }
