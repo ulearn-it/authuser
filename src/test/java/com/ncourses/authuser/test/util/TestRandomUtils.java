@@ -15,6 +15,10 @@ public class TestRandomUtils {
         return EASY_RANDOM.nextObject(type);
     }
 
+    public String randomString() {
+        return EASY_RANDOM.nextObject(String.class);
+    }
+
     public <T> List<T> randomList(Class<T> classType, int size) {
         return EASY_RANDOM.objects(classType, size)
                 .collect(Collectors.toList());

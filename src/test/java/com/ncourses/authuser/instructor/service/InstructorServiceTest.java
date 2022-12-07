@@ -52,7 +52,7 @@ class InstructorServiceTest {
             final InstructorDto input = TestRandomUtils.randomObject(InstructorDto.class);
             final UserEntity userEntity = TestUserEntityBuilder.builder().build();
             final RoleEntity roleModel = TestRoleEntityBuilder.builder().build();
-            final UserDto userDto = TestUserDtoBuilder.builder().build();
+            final UserDto userDto = TestUserDtoBuilder.builder().withUserType(UserType.INSTRUCTOR).build();
 
             when(userService.findById(input.getUserId())).thenReturn(userEntity);
             when(roleService.findByRoleName(RoleType.ROLE_INSTRUCTOR)).thenReturn(roleModel);

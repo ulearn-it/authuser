@@ -2,6 +2,7 @@ package com.ncourses.authuser.test.builder;
 
 import com.ncourses.authuser.test.util.TestRandomUtils;
 import com.ncourses.authuser.user.model.dtos.UserDto;
+import com.ncourses.authuser.user.model.enums.UserType;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public class TestUserDtoBuilder {
 
     private TestUserDtoBuilder() {
         dto = TestRandomUtils.randomObject(UserDto.class);
+    }
+
+    public TestUserDtoBuilder withUserType(UserType userType) {
+        dto.setUserType(userType);
+        return this;
     }
 
     public UserDto build() {

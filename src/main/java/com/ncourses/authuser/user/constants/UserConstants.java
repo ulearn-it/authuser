@@ -5,6 +5,6 @@ public class UserConstants {
     private UserConstants(){
     }
 
-    public static final String USER_NOT_FOUND_WITH_ID =  "User not found with id {}";
+    public static final String USER_NOT_FOUND_WITH_ID =  "User not found with id {0}";
 
 }
